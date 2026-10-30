@@ -4,6 +4,8 @@
 
 This release is a **work in progress**. I am writing these docs for a wide audience and still tightening the wording. If something is unclear, wrong for your setup, or could be friendlier, please open a [GitHub Issue](https://github.com/CodeVelo/inbox-sentry/issues) — feedback genuinely helps.
 
+Stay up to date: your Inbox Sentry stays just as you set it up until you choose to upgrade. To hear when there's something new, watch this repo (choose Custom, then Releases), or follow @jwilkes on X, where every update starts with "Inbox Sentry update:". Feedback is always welcome as an issue here or a reply on X.
+
 **A free [Grok Bot](https://grok.com) template by Jeff Wilkes.**
 
 Inbox Sentry is built **Microsoft-first**. It is optimized for people who have chosen Microsoft solutions for personal productivity — Outlook (including Outlook.com and Microsoft 365 accounts) — and it is tuned to make that choice even better.

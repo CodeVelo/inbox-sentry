@@ -6,6 +6,25 @@ It is built **Microsoft-first**: optimized for people who have chosen Outlook fo
 
 This page is a work in progress. I am writing it for a wide audience — if something is unclear or wrong for your setup, please open a [GitHub issue](https://github.com/CodeVelo/inbox-sentry/issues). Feedback is welcome.
 
+## What's new in v1.2, and how to upgrade
+
+### What's new
+Inbox Sentry now looks after your whole Outlook mailbox, not just your Inbox.
+- **Every folder, every day.** Each morning Sentry checks new mail in all your folders, including the ones you've made yourself. It picks up where it left off, so nothing slips through on a busy day.
+- **A gentle first look.** When you first connect, Sentry checks only your recent mail: the newest 40 messages in each folder from the last 30 days. Older mail is checked whenever one of your bots asks about a specific message.
+- **A checkpoint for your other bots.** If other bots help with your mail, they see only who sent a message and its subject until Sentry has cleared it. They can ask Sentry to check a message at any time.
+- **Tidy, private records.** Sentry keeps its ratings, never your messages. Clean results are kept for 30 days, and anything it flagged is kept for 90.
+- **A friendlier setup.** The first conversation now walks you through each step in plain language.
+
+Full notes: [Releases / changelog](https://github.com/CodeVelo/inbox-sentry/releases).
+
+### How to upgrade from an earlier version
+Bots you've added currently don't update on their own. Pick whichever of these suits you:
+
+**Option 1: Add v1.2 as a new bot.** Open [Inbox Sentry](https://x.ai/bot/H0gR9Cfsk3eXurkkcjaV2) and add it. You get the new setup, scan routines and rules. The new bot starts fresh, so with a new bot you currently need to reconnect your Outlook accounts, choose your scan times, and turn back on any extras you'd enabled (color tags, the Sentry Review folder, or email summaries). Your old bot keeps its history until you remove it. Pause its routines so the two don't both scan every morning.
+
+**Option 2: Ask your current bot to update itself.** Send it a message like: "Please adopt the Inbox Sentry v1.2 changes listed in https://github.com/CodeVelo/inbox-sentry/releases, and show me each change before you make it." Your connected accounts, scan history and settings stay in place, since nothing is reinstalled. Review each change it proposes, especially the updated daily scan routine.
+
 ## Read-only by design
 
 **Why this matters:** your mail is yours. A guard that quietly deletes, replies, or rewrites rules would be a different product — and a riskier one. Read-only means Sentry can **look and warn** without taking over your inbox.
