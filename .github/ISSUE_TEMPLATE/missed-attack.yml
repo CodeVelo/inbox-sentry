@@ -1,0 +1,71 @@
+name: Missed attack
+description: Report prompt-injection or scam-wrapper mail that Sentry did not catch strongly enough.
+title: "[Missed attack] "
+labels: ["missed-attack"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping harden Inbox Sentry.
+
+        **Never paste real email contents, headers, authentication codes, or personal information** into this form. Describe the **category** of attack (hidden text, calendar field, obfuscation, etc.). Do not include working payloads.
+
+        If you believe this is an unpatched bypass that should stay private, use [private vulnerability reporting](../SECURITY.md) instead of a public issue.
+  - type: dropdown
+    id: verdict-seen
+    attributes:
+      label: What did Sentry do?
+      options:
+        - Rated Clean / did not flag
+        - Rated Note (too soft)
+        - Rated Suspect (too soft vs Block)
+        - Other / not sure
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Attack category (best fit)
+      options:
+        - Hidden / white / tiny text instructions
+        - display:none or similar CSS hiding
+        - Zero-width or invisible Unicode
+        - Obfuscation (encoding) of assistant instructions
+        - Homoglyph / lookalike characters
+        - Named Sentry / asked to disable scanning
+        - Tool or inbox-rule bait
+        - Calendar invite (ICS) field injection
+        - Contact card (vCard) field injection
+        - Brand / phishing wrapper (mismatched links, unrelated Reply-To, auth fail)
+        - Other (describe below)
+    validations:
+      required: true
+  - type: textarea
+    id: pattern
+    attributes:
+      label: What happened? (category-level only)
+      description: No payloads, no real addresses, no codes. Example — “Hidden block told an assistant to forward mail; Sentry left it Clean.”
+      placeholder: Calendar DESCRIPTION contained assistant-directed instructions; message was not tagged Block.
+    validations:
+      required: true
+  - type: dropdown
+    id: acted
+    attributes:
+      label: Did Sentry follow any injected instruction?
+      options:
+        - No
+        - Not sure
+        - Yes (describe without pasting the payload)
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else? (optional)
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: Confirmation
+      options:
+        - label: I have not pasted real email bodies, headers, codes, personal info, or working payloads into this issue.
+          required: true

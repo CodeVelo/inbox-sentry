@@ -1,0 +1,60 @@
+name: False alarm
+description: Report something clean that Inbox Sentry flagged too strongly.
+title: "[False alarm] "
+labels: ["false-alarm"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping tune Inbox Sentry.
+
+        **Never paste real email contents, headers, authentication codes, or personal information** into this form. Describe the pattern in your own words. Use fictional domains (for example `example.invalid`) if you need an illustration.
+  - type: dropdown
+    id: verdict-seen
+    attributes:
+      label: What verdict did Sentry give?
+      options:
+        - Note
+        - Suspect
+        - Block
+        - Other / not sure
+    validations:
+      required: true
+  - type: dropdown
+    id: verdict-expected
+    attributes:
+      label: What verdict did you expect?
+      options:
+        - Clean
+        - Note
+        - Suspect
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: pattern
+    attributes:
+      label: What kind of message was it? (no real content)
+      description: High-level only — e.g. “newsletter with a marketing preheader”, “receipt from a shop I buy from”, “normal calendar invite from a coworker”.
+      placeholder: Ordinary marketing newsletter; no assistant-directed text that I could see.
+    validations:
+      required: true
+  - type: textarea
+    id: why-wrong
+    attributes:
+      label: Why do you think the flag was wrong?
+      placeholder: Looked like normal mail; sender is someone I already correspond with; no hidden instructions visible in the client.
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else? (optional)
+      description: Template version, approximate date, or other non-sensitive context.
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: Confirmation
+      options:
+        - label: I have not pasted real email bodies, headers, codes, or personal info into this issue.
+          required: true

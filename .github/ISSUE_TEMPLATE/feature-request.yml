@@ -1,0 +1,37 @@
+name: Feature request
+description: Suggest an improvement to Inbox Sentry’s template or docs.
+title: "[Feature] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ideas welcome — new surfaces to scan, clearer docs, better feedback UX, and so on.
+
+        **Never paste real email contents, headers, authentication codes, or personal information** into this form.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+      placeholder: Hard to tell why a message was rated Suspect from the digest alone.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What would you like to see?
+      placeholder: Short reason strings in the Sunday summary; optional Gmail support later.
+    validations:
+      required: true
+  - type: textarea
+    id: extras
+    attributes:
+      label: Alternatives or references? (optional)
+      description: Links to public write-ups are fine. No private mail.
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: Confirmation
+      options:
+        - label: I have not pasted real email bodies, headers, codes, or personal info into this issue.
+          required: true
