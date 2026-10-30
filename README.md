@@ -60,7 +60,7 @@ Details, JSON shapes, and a paste-ready instruction block are in [How it works](
 
 ## Red Team results (2026-10-29)
 
-Independent non-destructive testing against synthetic and live prompt-injection cases:
+Non-destructive testing by my own Red Team bot, against synthetic and live prompt-injection cases:
 
 - **Phase 1:** **19/20** catches on fake attacks; **0 false alarms** on 5 harmless controls; **never followed** an injected instruction. The one shortfall was a fake Microsoft alert that failed sender checks — rated **Suspect** instead of **Block**.
 - **Phase 2:** All **5** live test emails were **blocked**. (The fifth, which named Sentry directly, landed in Junk Email and was caught once Sentry began scanning Junk in v1.1.)
