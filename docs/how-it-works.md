@@ -130,7 +130,7 @@ A re-scan moves the entry to the new UTC day file and updates the index. If mail
 
 ### Daily scheduled scan
 
-By default, Sentry runs a **daily morning scan** in your local time zone (the setup skill defaults to about **7 AM**; pick a time that fits when you install). The scan:
+By default, Sentry runs a **daily morning scan** in your local time zone (default about **7 AM**, give or take 15 minutes; pick a time that fits when you install). The scan:
 
 1. Walks **every folder recursively** in each connected mailbox
 2. Uses a per-folder watermark in that mailbox’s `state.json` under `folderWatermarks` (`{ "<folderId>": "<receivedDateTime>" }`)
@@ -154,11 +154,11 @@ On first connection (or a coverage backfill), Sentry does a one-time pass per fo
 
 ### If a folder falls behind
 
-If more than 40 new messages land in a folder between runs, that day’s pass still takes at most 40 after the watermark. Later daily runs keep walking forward as the watermark advances. Mail that never entered the 30-day first-pass window is not caught up by the daily job — use an on-demand scan for specific ids.
+Daily runs list messages newer than each folder’s watermark **oldest first** and scan up to 40. The watermark moves only to the newest message actually scanned, so anything past 40 is picked up on the next run and nothing is skipped. (The one-time first-connection backfill is different: it takes the **newest** 40 from the last 30 days.) Mail older than the backfill window is never caught up by the daily job — use an on-demand scan for specific ids.
 
 ### Sunday digest
 
-A **weekly summary** (setup default: Sunday morning around **8 AM** local) reviews stored findings and asks for feedback (`right` / `wrong` / `missed one`). It is meant to read **stored results**, not to re-open every message body.
+A **weekly summary** (setup default: Sunday morning around **8 AM** local) reviews stored findings and asks for feedback (`right` / `wrong` / `missed one`). It reads **only stored results** (verdicts and state). It never lists, fetches, or scans mail.
 
 ## On-demand protocol for other bots
 
@@ -193,7 +193,7 @@ Send a priority agent message to your Inbox Sentry bot with JSON only (no messag
 }
 ```
 
-Sentry ignores unknown senders and ignores any request that includes message content.
+Sentry accepts requests only from bots you have listed as approved in its setup, ignores everyone else, and ignores folder-wide asks or any request that includes message content.
 
 ### Response shape
 
@@ -205,15 +205,15 @@ Sentry replies with per-item results after scanning (or looking up) each id. A t
     {
       "userPrincipalName": "user@example.com",
       "id": "<graphMessageId>",
-      "internetMessageId": "<internetMessageId>",
       "verdict": "CLEAN",
-      "reasons": [],
-      "scannedDateTime": "2026-10-30T16:00:00Z",
-      "parentFolderId": "<graphFolderId>"
+      "reasons": []
     }
-  ]
+  ],
+  "note": "<optional>"
 }
 ```
+
+Every result is also written to `verdicts/index.json` (with `dayFile`, `id`, `parentFolderId`, `verdict`, `scannedDateTime`), so bots can check the index before asking again.
 
 `verdict` is one of `CLEAN`, `NOTE`, `SUSPECT`, `BLOCK`, or `ERROR`. Treat anything other than `CLEAN` as do-not-read for automated body access. If an id is missing or expired from the index, Sentry scans it on demand rather than inventing a verdict.
 

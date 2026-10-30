@@ -6,8 +6,8 @@ All notable changes to the Inbox Sentry template. Dates are UTC.
 
 Work in progress. Feedback welcome via [GitHub Issues](https://github.com/CodeVelo/inbox-sentry/issues).
 
-- **Every-folder scanning.** Daily scan walks every folder recursively in each connected mailbox. Each folder has its own watermark (`folderWatermarks` in `state.json`). Each run scans only mail after that watermark, at most **40 messages per folder**, and skips anything already indexed.
-- **First-connection backfill.** One-time pass: at most 40 messages per folder from the last **30 days**. Older mail is never bulk-scanned; use on-demand by message id.
+- **Every-folder scanning.** Daily scan walks every folder recursively in each connected mailbox. Each folder has its own watermark (`folderWatermarks` in `state.json`). Each run scans only mail after that watermark, at most **40 messages per folder** (oldest first; the watermark only advances past what was scanned, so overflow rolls to the next run), and skips anything already indexed.
+- **First-connection backfill.** One-time pass: the newest 40 messages per folder from the last **30 days**. Older mail is never bulk-scanned; use on-demand by message id.
 - **Verdict store layout.** Canonical store is `injection-guard/verdicts/`: day files `YYYY-MM-DD.json` (UTC), `index.json` keyed `<internetMessageId>||<userPrincipalName>`, `prune.py` retention, and permanent `summaries/YYYY-MM.json`. CLEAN kept 30 days; flagged (SUSPECT/BLOCK/NOTE/ERROR) kept 90 days.
 - **Retired / deprecated files.** `junk-verdicts.json` is retired. Root `verdicts.json` is a deprecated compatibility copy. Prefer `verdicts/`.
 - **On-demand protocol.** Other bots may list headers only, then ask Sentry to scan specific Graph message ids (max **25** per request) and read bodies only when the verdict is **CLEAN**. Docs include request/response shapes and a paste-ready instruction block.
