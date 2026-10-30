@@ -1,6 +1,6 @@
 # Inbox Sentry
 
-**What's new:** v1.1 adds Junk Email scanning. See the [changelog](CHANGELOG.md).
+**What's new:** v1.2 adds every-folder scanning, a day-file verdict store with retention, and an on-demand scan protocol for other bots. See the [changelog](CHANGELOG.md). This release is a **work in progress** — feedback welcome via [GitHub Issues](https://github.com/CodeVelo/inbox-sentry/issues).
 
 **A free [Grok Bot](https://grok.com) template by Jeff Wilkes.**
 
@@ -42,6 +42,11 @@ Inbox Sentry is a **hint**, not a guarantee. Always use your own judgment on any
 2. Create a bot from the template and connect your Microsoft / Outlook account when prompted.
 3. Let it run a first scan. Review anything tagged Block or Suspect in **Sentry Review**.
 4. Teach it with chat feedback: reply `right`, `wrong`, or `missed one` to digest items.
+5. Run through [Verify your setup](docs/how-it-works.md#verify-your-setup) so other bots respect the CLEAN gate.
+
+## Other bots and on-demand scans
+
+Other bots should list **headers only** until Sentry has rated a message. Before reading any body, ask Sentry to scan specific message ids (max 25) and read only mail marked **CLEAN**. Details, JSON shapes, and a paste-ready instruction block are in [How it works](docs/how-it-works.md#on-demand-protocol-for-other-bots).
 
 ## Red Team results (2026-10-29)
 
@@ -59,6 +64,7 @@ See [docs/red-team.md](docs/red-team.md) for methodology (attack **categories** 
 - Read-only by design: it will not “fix” mail for you beyond tagging and optional filing into Sentry Review.
 - Trusted-hint logic is based on people you have replied to; it is a signal, not proof of safety.
 - Prompt injection evolves. Treat Sentry as one layer of defense, not a complete shield.
+- Daily scanning covers new mail (and a small first-pass window). Older mail is scanned on demand by message id, not in bulk.
 
 ## Report problems
 
@@ -72,7 +78,7 @@ Use [GitHub Issues](../../issues) with the forms provided:
 
 ## Docs
 
-- [How it works](docs/how-it-works.md)
+- [How it works](docs/how-it-works.md) (storage, scan timing, on-demand protocol, verify checklist)
 - [Red Team](docs/red-team.md)
 - [Security policy](SECURITY.md)
 
