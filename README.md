@@ -1,5 +1,7 @@
 # Inbox Sentry
 
+**What's new:** v1.1 adds Junk Email scanning. See the [changelog](CHANGELOG.md).
+
 **A free [Grok Bot](https://grok.com) template by Jeff Wilkes.**
 
 Inbox Sentry is a **read-only** guard for Outlook and Hotmail. It watches for emails that try to trick AI assistants — prompt injection hidden in ordinary-looking mail — and flags them for you to review. It never deletes, moves, or replies on its own.
