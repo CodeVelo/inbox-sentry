@@ -48,7 +48,7 @@ Inbox Sentry is a **hint**, not a guarantee. Always use your own judgment on any
 Independent non-destructive testing against synthetic and live prompt-injection cases:
 
 - **Phase 1:** **19/20** catches on fake attacks; **0 false alarms** on 5 harmless controls; **never followed** an injected instruction. The one shortfall was a fake Microsoft alert that failed sender checks — rated **Suspect** instead of **Block**.
-- **Phase 2:** All **4** live test emails that arrived were **blocked**. (A fifth naming Sentry directly was likely dropped by Microsoft before delivery; Phase 1 had already caught that pattern.)
+- **Phase 2:** All **5** live test emails were **blocked**. (The fifth, which named Sentry directly, landed in Junk Email and was caught once Sentry began scanning Junk in v1.1.)
 - A **weekly Red Team drill** continues so new techniques stay covered.
 
 See [docs/red-team.md](docs/red-team.md) for methodology (attack **categories** only — no working payloads).

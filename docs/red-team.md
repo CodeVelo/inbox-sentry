@@ -53,7 +53,7 @@ Each case is scored as one of:
 ### Phase 2 (live marked test mail)
 
 - **4** live test emails that arrived were all **blocked**
-- A fifth case that addressed Sentry by name was likely dropped by Microsoft before delivery; Phase 1 had already caught that category
+- The fifth case, which addressed Sentry by name, was delivered to Junk Email rather than dropped; Sentry's Junk scan (v1.1, 2026-10-30) rated it Block
 - No auto-fail observed
 
 ### Ongoing
