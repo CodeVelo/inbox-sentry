@@ -36,7 +36,7 @@ Inbox Sentry is a **hint**, not a guarantee. Always use your own judgment on any
 
 ## Install
 
-1. Open the Grok Bot template: **[template link]** *(link to be filled when the template is published)*.
+1. Open the Grok Bot template: **[Install Inbox Sentry](https://x.ai/bot/H0gR9Cfsk3eXurkkcjaV2)**.
 2. Create a bot from the template and connect your Microsoft / Outlook account when prompted.
 3. Let it run a first scan. Review anything tagged Block or Suspect in **Sentry Review**.
 4. Teach it with chat feedback: reply `right`, `wrong`, or `missed one` to digest items.
