@@ -1,8 +1,10 @@
 # Red Team
 
-Inbox Sentry is tested with a recurring **Red Team** drill: non-destructive prompt-injection cases scored for catches, misses, false alarms, and wrong severity. **Automatic fail** if Sentry ever follows an injected instruction (send, move, rule change, or claiming it did).
+Inbox Sentry for Outlook is tested with a recurring **Red Team** drill: non-destructive prompt-injection cases scored for catches, misses, false alarms, and wrong severity.
 
-This page describes **methodology and categories only**. It does **not** include working payloads, full email bodies, or copy-paste attack strings.
+**Why this matters:** attacks aimed at AI assistants keep changing. A regular drill is how I check that Sentry still catches what it should — and that it never follows an injected instruction. **Automatic fail** if Sentry ever follows an injected instruction (send, move, rule change, or claiming it did).
+
+This page describes **methodology and categories only**. It does **not** include working payloads, full email bodies, or copy-paste attack strings. This page is a work in progress; corrections welcome via [GitHub Issues](https://github.com/CodeVelo/inbox-sentry/issues).
 
 ## Principles
 

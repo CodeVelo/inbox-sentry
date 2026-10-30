@@ -20,7 +20,7 @@ body:
     id: proposal
     attributes:
       label: What would you like to see?
-      placeholder: Short reason strings in the Sunday summary; optional Gmail support later.
+      placeholder: Short reason strings in the Sunday summary; clearer install steps for Outlook.
     validations:
       required: true
   - type: textarea

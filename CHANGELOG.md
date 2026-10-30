@@ -12,7 +12,7 @@ Work in progress. Feedback welcome via [GitHub Issues](https://github.com/CodeVe
 - **Retired / deprecated files.** `junk-verdicts.json` is retired. Root `verdicts.json` is a deprecated compatibility copy. Prefer `verdicts/`.
 - **On-demand protocol.** Other bots may list headers only, then ask Sentry to scan specific Graph message ids (max **25** per request) and read bodies only when the verdict is **CLEAN**. Docs include request/response shapes and a paste-ready instruction block.
 - **Verify checklist.** New setup checklist: confirm watermarks advanced, test an on-demand scan, and confirm other bots refuse unscanned bodies.
-- **Docs.** Expanded [How it works](docs/how-it-works.md) for storage, scan timing, and the other-bot gate. Still a work in progress.
+- **Docs.** Expanded [How it works](docs/how-it-works.md) for storage, scan timing, and the other-bot gate. Still a work in progress. Framed Microsoft-first for Outlook.
 
 ## v1.1 — 2026-10-30
 - **Junk Email scanning.** Sentry now scans the Junk Email folder (read-only, same rules as Inbox). Junk results are recorded, not alerted.
@@ -20,4 +20,4 @@ Work in progress. Feedback welcome via [GitHub Issues](https://github.com/CodeVe
 - **Microsoft naming.** Stored fields use Microsoft Graph property names and lower camelCase (`userPrincipalName`, `parentFolderId`, `id`, `internetMessageId`, `receivedDateTime`, `from`, `subject`); Sentry's own fields follow suit (`scannedDateTime`, `verdict`, `reasons`, `linkDomains`). All timestamps are UTC.
 
 ## v1.0 — 2026-10-30
-- Initial public release: read-only guard for Outlook/Hotmail that flags emails designed to hijack AI agents (hidden instructions, white text, fake "ignore your rules" prompts). Never deletes, moves, or replies.
+- Initial public release: read-only guard for Outlook that flags emails designed to hijack AI agents (hidden instructions, white text, fake "ignore your rules" prompts). Never deletes, moves, or replies. Built Microsoft-first for Outlook.

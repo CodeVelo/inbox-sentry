@@ -1,10 +1,14 @@
-# Inbox Sentry
+# Inbox Sentry for Outlook
 
-**What's new:** v1.2 adds every-folder scanning, a day-file verdict store with retention, and an on-demand scan protocol for other bots. See the [changelog](CHANGELOG.md). This release is a **work in progress** — feedback welcome via [GitHub Issues](https://github.com/CodeVelo/inbox-sentry/issues).
+**What's new:** v1.2 adds every-folder scanning, a day-file verdict store with retention, and an on-demand scan protocol for other bots. See the [changelog](CHANGELOG.md).
+
+This release is a **work in progress**. I am writing these docs for a wide audience and still tightening the wording. If something is unclear, wrong for your setup, or could be friendlier, please open a [GitHub Issue](https://github.com/CodeVelo/inbox-sentry/issues) — feedback genuinely helps.
 
 **A free [Grok Bot](https://grok.com) template by Jeff Wilkes.**
 
-Inbox Sentry is a **read-only** guard for Outlook and Hotmail. It watches for emails that try to trick AI assistants — prompt injection hidden in ordinary-looking mail — and flags them for you to review. It never deletes, moves, or replies on its own.
+Inbox Sentry is built **Microsoft-first**. It is optimized for people who have chosen Microsoft solutions for personal productivity — Outlook (including Outlook.com and Microsoft 365 accounts) — and it is tuned to make that choice even better.
+
+In plain terms: Sentry is a **read-only** guard for your Outlook mail. It watches for emails that try to trick AI assistants — a pattern often called **prompt injection**, where hidden instructions are tucked into ordinary-looking mail — and flags those messages for you to review. It never deletes, moves, or replies on its own.
 
 ## What it catches
 
@@ -16,7 +20,7 @@ Emails (and calendar invites / contact cards) that try to steer an AI assistant,
 - Booby-trapped calendar invites (ICS) and contact cards (vCard)
 - Mismatched links, unrelated Reply-To addresses, and failed sender authentication used as scam wrappers
 
-Findings are sorted into a **Sentry Review** folder and tagged:
+When Sentry finds something concerning, it sorts that message into a **Sentry Review** folder and tags it so you can see why it matters:
 
 | Tag | Meaning |
 |---|---|
@@ -24,9 +28,13 @@ Findings are sorted into a **Sentry Review** folder and tagged:
 | **Suspect** | Likely scam or suspicious wrapper (may not be clear injection) |
 | **Note** | Worth a glance (for example, an unrelated Reply-To) |
 
-People you have already replied to count as **trusted hints** — not hard overrides. A daily scan and a Sunday summary keep you in the loop. You can mark findings right / wrong / missed so the rules improve over time.
+People you have already replied to count as **trusted hints** — a soft signal that a follow-up is probably ordinary, not a hard override. A trusted sender’s mail can still be Blocked if it contains instructions aimed at an assistant.
+
+A daily scan and a Sunday summary keep you in the loop. You can mark findings right / wrong / missed so the rules improve over time.
 
 ## What it never does
+
+Read-only matters because mail is personal. Sentry is designed to **look and warn**, not to take over your inbox:
 
 - Delete mail
 - Move mail without your OK (except filing tagged findings into **Sentry Review** when you have opted in)
@@ -39,14 +47,16 @@ Inbox Sentry is a **hint**, not a guarantee. Always use your own judgment on any
 ## Install
 
 1. Open the Grok Bot template: **[Install Inbox Sentry](https://x.ai/bot/H0gR9Cfsk3eXurkkcjaV2)**.
-2. Create a bot from the template and connect your Microsoft / Outlook account when prompted.
+2. Create a bot from the template and connect your Outlook account when prompted.
 3. Let it run a first scan. Review anything tagged Block or Suspect in **Sentry Review**.
 4. Teach it with chat feedback: reply `right`, `wrong`, or `missed one` to digest items.
 5. Run through [Verify your setup](docs/how-it-works.md#verify-your-setup) so other bots respect the CLEAN gate.
 
 ## Other bots and on-demand scans
 
-Other bots should list **headers only** until Sentry has rated a message. Before reading any body, ask Sentry to scan specific message ids (max 25) and read only mail marked **CLEAN**. Details, JSON shapes, and a paste-ready instruction block are in [How it works](docs/how-it-works.md#on-demand-protocol-for-other-bots).
+If you use more than one bot with the same Outlook mailbox, the others should treat Sentry as a gate. In practice that means: list **headers only** until Sentry has rated a message; before reading any body, ask Sentry to scan specific message ids (max 25); and read only mail marked **CLEAN**.
+
+Details, JSON shapes, and a paste-ready instruction block are in [How it works](docs/how-it-works.md#on-demand-protocol-for-other-bots).
 
 ## Red Team results (2026-10-29)
 
@@ -58,13 +68,13 @@ Independent non-destructive testing against synthetic and live prompt-injection 
 
 See [docs/red-team.md](docs/red-team.md) for methodology (attack **categories** only — no working payloads).
 
-## Limits
+## Design choices (and why they matter)
 
-- **Microsoft accounts only** today (Outlook / Hotmail). Gmail is not supported yet.
-- Read-only by design: it will not “fix” mail for you beyond tagging and optional filing into Sentry Review.
-- Trusted-hint logic is based on people you have replied to; it is a signal, not proof of safety.
-- Prompt injection evolves. Treat Sentry as one layer of defense, not a complete shield.
-- Daily scanning covers new mail (and a small first-pass window). Older mail is scanned on demand by message id, not in bulk.
+- **Microsoft-first for Outlook.** Sentry is built around the Microsoft mail experience so people who already live in Outlook get the best fit — categories, folders, and Graph field names that match how Outlook actually works.
+- **Read-only by design.** It will not “fix” mail for you beyond tagging and optional filing into Sentry Review. That keeps your inbox under your control.
+- **Trusted hints, not hard trust.** The “people you have replied to” signal softens suspicion for ordinary follow-ups; it is not proof of safety.
+- **One layer of defense.** Prompt injection evolves. Treat Sentry alongside Microsoft’s own protections and your judgment — not as a complete shield.
+- **New mail first; older mail on request.** Daily scanning covers new mail (and a small first-pass window). Older mail is scanned on demand by message id, not in bulk, so Sentry stays light on your mailbox.
 
 ## Report problems
 

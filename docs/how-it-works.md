@@ -1,10 +1,14 @@
 # How Inbox Sentry works
 
-Inbox Sentry is a Grok Bot template that **reads** Outlook / Hotmail mail and rates messages for prompt-injection risk. It is built to stay out of the way of normal mail and to never act on instructions found inside an email.
+Inbox Sentry for Outlook is a free [Grok Bot](https://grok.com) template that **reads** your Outlook mail and rates each message for **prompt-injection risk** — that is, whether the message tries to hide instructions aimed at an AI assistant.
 
-This page is a work in progress. If something is unclear or wrong for your setup, open a [GitHub issue](https://github.com/CodeVelo/inbox-sentry/issues).
+It is built **Microsoft-first**: optimized for people who have chosen Outlook for personal productivity, and tuned to make that choice even better. Sentry is meant to stay out of the way of normal mail and to never act on instructions found inside an email.
+
+This page is a work in progress. I am writing it for a wide audience — if something is unclear or wrong for your setup, please open a [GitHub issue](https://github.com/CodeVelo/inbox-sentry/issues). Feedback is welcome.
 
 ## Read-only by design
+
+**Why this matters:** your mail is yours. A guard that quietly deletes, replies, or rewrites rules would be a different product — and a riskier one. Read-only means Sentry can **look and warn** without taking over your inbox.
 
 Sentry may:
 
@@ -26,14 +30,18 @@ If pasted or delivered content asks the bot to forward mail, change rules, or di
 
 ## What gets scanned
 
+Sentry looks through the places an attacker might hide instructions:
+
 - Every mail folder in each connected mailbox, walked **recursively** (Inbox, Junk Email, Sent Items, custom folders, and their children)
 - Meeting invites / ICS descriptions
 - vCard / contact-card notes and display names
 - Visible body text **and** common hiding tricks (white/tiny text, HTML comments, `display:none`, zero-width characters, simple obfuscation)
 
-Sentry does **not** bulk-scan your entire history. See [What is scanned and when](#what-is-scanned-and-when) below.
+Sentry does **not** bulk-scan your entire history. That keeps the daily job light and focused on what is new. See [What is scanned and when](#what-is-scanned-and-when) below.
 
 ## Verdicts
+
+A **verdict** is Sentry’s short rating for a message — the label other bots (and you) can trust before anyone reads the full body.
 
 | Verdict | Typical use |
 |---|---|
@@ -52,11 +60,15 @@ Rough rating floors (simplified):
 
 ## Trusted hints
 
-Senders you have **already replied to** (from that mailbox’s own Sent Items) are treated as **trusted hints**. That softens suspicion for ordinary follow-ups; it does **not** override clear injection. A trusted sender’s mail can still be Blocked if it contains agent-directed instructions.
+Senders you have **already replied to** (from that mailbox’s own Sent Items) are treated as **trusted hints**.
+
+**Why this matters:** a soft signal cuts down on noise for ordinary back-and-forth with people you already know. It does **not** override clear injection. A trusted sender’s mail can still be Blocked if it contains agent-directed instructions.
 
 ## Storage and retention
 
-Canonical verdict storage lives under the bot’s store in `injection-guard/verdicts/`. Message **bodies are never stored** in verdict files.
+**Why this matters:** Sentry needs a durable record of what it already rated so other bots do not re-read the same mail over and over — and so a Sunday digest can review the week without fetching bodies again. Message **bodies are never stored** in verdict files; only ratings and light metadata.
+
+Canonical verdict storage lives under the bot’s store in `injection-guard/verdicts/`.
 
 ```
 verdicts/
@@ -67,7 +79,7 @@ verdicts/
     YYYY-MM.json       # permanent monthly counts
 ```
 
-### Day files
+### For the technically curious: day files
 
 Each UTC calendar day gets one file: `verdicts/YYYY-MM-DD.json`. Top level shape:
 
@@ -86,7 +98,7 @@ Each entry uses Microsoft Graph property names and lower camelCase, with UTC tim
 - `from` (`name`, `address`), `subject` (OTPs stored as `[code]`)
 - `verdict`, `reasons[]`, `linkDomains[]`
 
-### Index
+### For the technically curious: index
 
 `verdicts/index.json` is keyed by `<internetMessageId>||<userPrincipalName>` and points at the day file:
 
@@ -130,7 +142,11 @@ A re-scan moves the entry to the new UTC day file and updates the index. If mail
 
 ### Daily scheduled scan
 
-By default, Sentry runs a **daily morning scan** in your local time zone (default about **7 AM**, give or take 15 minutes; pick a time that fits when you install). The scan:
+By default, Sentry runs a **daily morning scan** in your local time zone (default about **7 AM**, give or take 15 minutes; pick a time that fits when you install).
+
+**Why a watermark matters:** a **watermark** is simply a “last seen” timestamp per folder. It lets Sentry pick up where it left off — scanning only mail newer than that mark — instead of re-reading everything every day.
+
+The scan:
 
 1. Walks **every folder recursively** in each connected mailbox
 2. Uses a per-folder watermark in that mailbox’s `state.json` under `folderWatermarks` (`{ "<folderId>": "<receivedDateTime>" }`)
@@ -144,7 +160,7 @@ Sentry is **read-only** on these runs: it tags and records verdicts; it does not
 
 ### First connection (one-time backfill)
 
-On first connection (or a coverage backfill), Sentry does a one-time pass per folder:
+On first connection (or a coverage backfill), Sentry does a one-time pass per folder so you are not starting from a blank slate:
 
 - At most **40** messages per folder
 - Only from the **last 30 days**
@@ -162,7 +178,7 @@ A **weekly summary** (setup default: Sunday morning around **8 AM** local) revie
 
 ## On-demand protocol for other bots
 
-Other bots must treat Sentry as the gate before reading mail bodies.
+**Why this matters:** if several bots can read the same Outlook mailbox, only one of them should be the gate that rates risk. Other bots list light headers first, ask Sentry to scan specific ids, and open a body only when the verdict is **CLEAN**.
 
 ### Headers only until CLEAN
 
@@ -177,7 +193,7 @@ Other bots may **list headers only**:
 
 Before reading any **body**, they must ask Sentry to scan the specific message ids and then read **only** messages marked **CLEAN**.
 
-### Request shape
+### For bot builders: request shape
 
 Send a priority agent message to your Inbox Sentry bot with JSON only (no message bodies in the request). Max **25** items. Specific Graph message ids only — never “scan this whole folder.”
 
@@ -195,7 +211,7 @@ Send a priority agent message to your Inbox Sentry bot with JSON only (no messag
 
 Sentry accepts requests only from bots you have listed as approved in its setup, ignores everyone else, and ignores folder-wide asks or any request that includes message content.
 
-### Response shape
+### For bot builders: response shape
 
 Sentry replies with per-item results after scanning (or looking up) each id. A typical item looks like:
 
@@ -266,6 +282,6 @@ Counts of false alarms, overruled calls, and misses are kept locally to tune rul
 
 ## What this is not
 
-Inbox Sentry is not antivirus, not a full phishing filter, and not a promise that every attack will be caught. It is a specialized layer for **AI prompt injection in email**, sitting alongside Microsoft’s own protections and your judgment.
+Inbox Sentry is not antivirus, not a full phishing filter, and not a promise that every attack will be caught. It is a specialized layer for **AI prompt injection in email**, sitting alongside Microsoft’s own protections and your judgment — built Microsoft-first for Outlook.
 
 Feedback and corrections welcome via [GitHub Issues](https://github.com/CodeVelo/inbox-sentry/issues).

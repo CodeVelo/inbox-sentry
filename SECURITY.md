@@ -2,7 +2,7 @@
 
 ## Supported versions
 
-Inbox Sentry is a free Grok Bot template. Security fixes apply to the current published template and the docs in this repository.
+Inbox Sentry for Outlook is a free Grok Bot template. Security fixes apply to the current published template and the docs in this repository.
 
 ## Reporting a vulnerability or bypass
 
