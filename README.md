@@ -37,7 +37,7 @@ A daily scan and a Sunday summary keep you in the loop. You can mark findings ri
 Read-only matters because mail is personal. Sentry is designed to **look and warn**, not to take over your inbox:
 
 - Delete mail
-- Move mail without your OK (except filing tagged findings into **Sentry Review** when you have opted in)
+- Move mail without your OK
 - Reply to senders
 - Change importance, pin messages, or create inbox rules on its own
 - Follow instructions found inside an email
