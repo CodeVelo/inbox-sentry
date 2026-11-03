@@ -1,25 +1,24 @@
 # Inbox Sentry for Outlook
 
-**What's new:** v1.2 adds every-folder scanning, a day-file verdict store with retention, and an on-demand scan protocol for other bots. See the [changelog](CHANGELOG.md).
+**What's new:** v1.2 now scans every folder, a day-file verdict store with retention, and an on-demand scan protocol for other bots. See the [changelog](CHANGELOG.md).
 
-This release is a **work in progress**. I am writing these docs for a wide audience and still tightening the wording. If something is unclear, wrong for your setup, or could be friendlier, please open a [GitHub Issue](https://github.com/CodeVelo/inbox-sentry/issues) — feedback genuinely helps.
+This project is a **work in progress**. If something is unclear, wrong for your setup, or could be friendlier, please open a [GitHub Issue](https://github.com/CodeVelo/inbox-sentry/issues) — feedback helps.
 
-Stay up to date: your Inbox Sentry stays just as you set it up until you choose to upgrade. To hear when there's something new, watch this repo (choose Custom, then Releases), or follow @jwilkes on X, where every update starts with "Inbox Sentry update:". Feedback is always welcome as an issue here or a reply on X.
+Inbox Sentry does not automatically update. To stay informed about changes watch this repo, or follow @jwilkes on X, where every update starts with "Inbox Sentry update:".
 
-**A free [Grok Bot](https://grok.com) template by Jeff Wilkes.**
+**A free [Grok Bot](https://grok.com) template**
 
-Inbox Sentry is built **Microsoft-first**. It is optimized for people who have chosen Microsoft solutions for personal productivity — Outlook (including Outlook.com and Microsoft 365 accounts) — and it is tuned to make that choice even better.
+Inbox Sentry is built **Microsoft-first**. It is disgned for Microsoft Outlook, personal or business account.
 
-In plain terms: Sentry is a **read-only** guard for your Outlook mail. It watches for emails that try to trick AI assistants — a pattern often called **prompt injection**, where hidden instructions are tucked into ordinary-looking mail — and flags those messages for you to review. It never deletes, moves, or replies on its own.
+Sentry is a **read-only** guard for your Outlook mail. It watches for email for **prompt injection** attacks where hidden instructions are tucked into ordinary-looking mail — and flags those messages for you to review. It never deletes, moves, or replies on its own.
 
 ## What it catches
 
-Emails (and calendar invites / contact cards) that try to steer an AI assistant, including:
+Email, calendar invites, and contact cards that try to steer an AI assistant, including:
 
 - Hidden instructions (white or tiny text, HTML comments, `display:none` blocks)
 - Zero-width or obfuscated “ignore your rules” / tool-call bait
 - Fake brand alerts and lookalike phishing wrapped as assistant instructions
-- Booby-trapped calendar invites (ICS) and contact cards (vCard)
 - Mismatched links, unrelated Reply-To addresses, and failed sender authentication used as scam wrappers
 
 When Sentry finds something concerning, it sorts that message into a **Sentry Review** folder and tags it so you can see why it matters:
@@ -56,7 +55,7 @@ Inbox Sentry is a **hint**, not a guarantee. Always use your own judgment on any
 
 ## Other bots and on-demand scans
 
-If you use more than one bot with the same Outlook mailbox, the others should treat Sentry as a gate. In practice that means: list **headers only** until Sentry has rated a message; before reading any body, ask Sentry to scan specific message ids (max 25); and read only mail marked **CLEAN**.
+If you use more than one bot with the same Outlook mailbox, the others should treat Sentry as a gate. In practice that means other bots ask Sentry to scan an eamil before they read it.
 
 Details, JSON shapes, and a paste-ready instruction block are in [How it works](docs/how-it-works.md#on-demand-protocol-for-other-bots).
 
