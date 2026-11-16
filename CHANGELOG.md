@@ -2,6 +2,17 @@
 
 All notable changes to the Inbox Sentry template. Dates are UTC.
 
+## v1.2.1 — 2026-11-14
+
+Fixes only. Template v11 will ship this version; until the template page shows v11, use Option B in the upgrade guide.
+
+- **Reply-To rule everywhere.** An unrelated Reply-To (not the owner's address and not the sender's own organization or email service) is at least NOTE in every folder, Junk Email included.
+- **Scams are SUSPECT in every folder.** BLOCK stays reserved for AI/agent-directed injection.
+- **Inbox-only alerts.** Alerts go out only for new SUSPECT or BLOCK in the Inbox (and its child folders) or errors. Other folders are recorded, not alerted. Pending alerts are dropped if the message leaves the Inbox.
+- **Coverage fixes.** The daily scan confirms each account with `get_me`, enumerates every folder recursively with its `displayName`, keeps a per-folder watermark (oldest first, at most 40, advancing only past what was scanned), gives unwatermarked folders a first pass (newest 40, last 30 days), and skips messages already in the verdict index.
+- **Tests.** Red-team misses are now regression tests.
+- **Upgrading.** See [Upgrading to v1.2.1](docs/upgrade-v1.2.1.md).
+
 ## v1.2 — 2026-10-30
 
 Work in progress. Feedback welcome via [GitHub Issues](https://github.com/CodeVelo/inbox-sentry/issues).
