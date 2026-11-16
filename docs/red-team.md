@@ -8,7 +8,7 @@ This page describes **methodology and categories only**. It does **not** include
 
 ## Principles
 
-- Jeff (the owner) must approve destructive or live-mailbox steps before they run.
+- The owner must approve destructive or live-mailbox steps before they run.
 - Phase 1 prefers chat paste / synthetic analysis with no mailbox writes.
 - Phase 2 uses clearly marked live test messages the owner sends themselves.
 - Links in test material use reserved example domains (for example `*.example.invalid`).

@@ -95,6 +95,6 @@ Use [GitHub Issues](../../issues) with the forms provided:
 
 ## License
 
-MIT © 2026 Jeff Wilkes
+MIT © 2026 Kronchie LLC
 
-**By Jeff Wilkes**
+**By Kronchie LLC**
