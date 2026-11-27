@@ -45,6 +45,14 @@ Read-only matters because mail is personal. Sentry is designed to **look and war
 
 Inbox Sentry is a **hint**, not a guarantee. Always use your own judgment on anything that looks sensitive.
 
+## How screening works and its limits
+
+A script first scrubs each email to plain text and checks for hidden or off-screen text. Fixed rules decide the clear cases. A model judges only the ambiguous ones. The verdict is **CLEAN**, **NOTE**, **SUSPECT**, or **BLOCK**. Email text is never followed as instructions.
+
+Until a message is marked **CLEAN**, other bots that share the mailbox should read only its headers. Details are in [Other bots and on-demand scans](#other-bots-and-on-demand-scans).
+
+No filter catches everything, which is why those other bots stay on headers only. Very long emails may be only partly scanned today. Inbox Sentry is a second layer alongside Microsoft Defender, not a replacement. Always use your own judgment.
+
 ## Install
 
 1. Open the Grok Bot template: **[Install Inbox Sentry](https://x.ai/bot/H0gR9Cfsk3eXurkkcjaV2)**.
